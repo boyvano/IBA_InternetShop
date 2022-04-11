@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    <div class="navbar navbar-inverse" role="navigation">
+        @Html.ActionLink("Магаз для всего", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        @Html.Action("Summary", "Cart")
+    </div>
+    <div class="row panel">
+        <div id="categories" class="col-xs-3">
+            @Html.Action("Menu", "Nav")
+        </div>
+        <div class="col-xs-8">
+            @RenderBody()
+            <div id="toastjs" class="text-info">Infa</div>
+        </div>
+    </div>
+    <footer>
+        <div> This is our footer!</div>
+    </footer>
+
+    <script src="~/Scripts/jquery-1.10.2.js"></script>
+    <script src="~/Scripts/jquery.unobtrusive-ajax.js"> </script>
+    <script src="~/Scripts/toast.js"></script>
+
+    <script type="text/javascript">
+        (function () {
+            $("#product_1").on('click', function () {
+                addToCartById(1);
+            });
+
+            function addToCartById(idprod) {
+                console.log('fgff');
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("AddToCartById", "Cart")/" + idprod,
+                    contentType: "application/json",
+                    data: null,
+                    success: function () {
+                        toast('brj', '', 3);
+                    },
+                    error: function (xhr, status, p3) {
+                        alert(xhr.responseText);
+                    }
+                });
+            }
+
+            function OnComplete() {
+                toastr.info('brj', ' added!', 30);
+            }
+        })();
+    </script>
+</body>
+</html>
